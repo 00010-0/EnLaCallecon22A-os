@@ -9,7 +9,7 @@
 
 <style>
 :root {
-  --bg-color: #F9F7F2; /* Fondo tipo Ironhill, más claro y limpio */
+  --bg-color: #F9F7F2; 
   --card-white: #FFFFFF;
   --ink: #2A2825;
   --accent: #C4773B;
@@ -23,19 +23,18 @@ body {
   font-family: 'Quicksand', sans-serif;
   background-color: var(--bg-color);
   color: var(--ink);
-  overflow: hidden;
-  perspective: 2000px;
+  overflow: hidden; /* El scroll lo maneja el wrapper */
 }
 
-/* EFECTO DE FONDO SUTIL */
+/* DECORACIÓN FONDO */
 .bg-decor {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: -1;
-  background-image: radial-gradient(circle at 10% 20%, rgba(196, 119, 59, 0.03) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(196, 119, 59, 0.03) 0%, transparent 40%);
+  background-image: radial-gradient(circle at 10% 20%, rgba(196, 119, 59, 0.03) 0%, transparent 40%);
 }
 
+/* CONTENEDOR PRINCIPAL HORIZONTAL */
 .wrapper {
   display: flex;
   height: 100vh;
@@ -53,99 +52,73 @@ body {
   justify-content: center;
   align-items: center;
   scroll-snap-align: center;
-  padding: 40px;
+  padding: 20px;
 }
 
-/* TARJETA ESTILO IRONHILL */
+/* TARJETA CON SCROLL VERTICAL INTERNO */
 .card {
   width: 100%;
   max-width: 1000px;
-  height: 80vh;
+  height: 85vh;
   background: var(--card-white);
-  padding: 80px;
-  border-radius: 24px; /* Bordes más modernos y menos exagerados */
+  border-radius: 24px;
   position: relative;
-  transform-style: preserve-3d;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.06); /* Sombra muy profesional y suave */
+  box-shadow: 0 40px 100px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow: hidden; /* Para que el scroll sea interno */
 }
 
-/* NÚMERO DE PÁGINA DECORATIVO */
+/* El contenedor del contenido que sí tiene scroll vertical */
+.card-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 60px 80px;
+  scroll-behavior: smooth;
+}
+/* Estilo de la barra de scroll interna (fina y elegante) */
+.card-content::-webkit-scrollbar { width: 4px; }
+.card-content::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 10px; }
+
+/* ELEMENTOS VISUALES */
 .page-num {
   position: absolute;
-  top: 40px;
-  right: 60px;
+  top: 20px;
+  right: 40px;
   font-family: 'Playfair Display', serif;
-  font-size: 5rem;
+  font-size: 6rem;
   color: var(--bg-color);
   font-weight: 700;
-  line-height: 1;
-  z-index: -1;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* CONTENIDO */
 .label { 
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-size: 0.75rem; 
-  letter-spacing: 0.3em; 
-  text-transform: uppercase; 
-  color: var(--accent); 
-  margin-bottom: 2rem; 
+  display: flex; align-items: center; gap: 15px;
+  font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; 
+  color: var(--accent); margin-bottom: 2rem; 
 }
-.label::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+.label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
 
 h2 { 
   font-family: 'Playfair Display', serif; 
-  font-size: clamp(2rem, 5vw, 3.2rem); 
-  font-weight: 400;
-  line-height: 1.2;
-  margin-bottom: 2rem; 
-  color: var(--ink);
+  font-size: clamp(2rem, 4vw, 3rem); 
+  font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; 
 }
 
-p { font-size: 1.15rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.5rem; max-width: 650px; }
-strong { color: var(--ink); font-weight: 600; }
+p { font-size: 1.1rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.5rem; max-width: 700px; }
 
-/* HISTORIA CON LÍNEA ELEGANTE */
-.story-wrap {
-  position: relative;
-  padding-left: 40px;
-}
-.story-wrap::after {
-  content: '';
-  position: absolute;
-  left: 0; top: 10px; bottom: 10px;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+/* SECCIONES VERTICALES DENTRO DE UNA TARJETA */
+.v-sub-section {
+  padding: 40px 0;
+  border-top: 1px solid var(--bg-color);
+  margin-top: 40px;
 }
 
-blockquote {
-  margin: 2rem 0;
-  padding-left: 0;
-}
-blockquote p {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 1.6rem !important;
-  color: var(--accent) !important;
-  line-height: 1.4;
-}
-
-/* GRID DE NECESIDADES ESTILO CARD CLEAN */
-.needs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-.need-item { 
-  background: var(--bg-color);
-  padding: 30px; 
-  border-radius: 16px; 
-  transition: 0.4s;
-}
+/* GRID DE NECESIDADES */
+.needs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.need-item { background: var(--bg-color); padding: 25px; border-radius: 16px; transition: 0.3s; }
 .need-item:hover { transform: translateY(-5px); background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.need-item h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 10px; color: var(--ink); }
-.need-item p { font-size: 0.95rem; margin-bottom: 0; }
 
 .need-item.full-width {
   grid-column: span 3;
@@ -153,35 +126,38 @@ blockquote p {
   border: 1px solid var(--accent-light);
 }
 
-/* BOTONES Y CONTACTO */
+/* BOTONES */
 .btn {
-  background: var(--ink); color: white; border: none; padding: 18px 40px; border-radius: 4px; /* Más cuadrado estilo Ironhill */
-  font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-block;
-  cursor: pointer; transition: all 0.3s; letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--ink); color: white; border: none; padding: 16px 35px; border-radius: 4px;
+  font-family: 'Quicksand', sans-serif; font-size: 0.85rem; font-weight: 600; text-decoration: none;
+  display: inline-block; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; text-transform: uppercase;
 }
-.btn:hover { background: var(--accent); transform: translateY(-2px); }
+.btn:hover { background: var(--accent); }
 
-.contact-box { margin-top: 30px; text-align: left; }
-.phone-link { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ink); text-decoration: none; margin: 15px 0; display: block; }
-
-/* PORTADA ESPECIAL */
-.hero-card { background: var(--ink); color: var(--bg-color); }
-.hero-card .label { color: var(--accent); }
-.hero-card h1 { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 400; line-height: 1; }
+/* PORTADA */
+.hero-card { background: var(--ink); color: var(--bg-color); display: flex; align-items: center; justify-content: center; text-align: center; }
+.hero-card h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 400; }
 .hero-card h1 em { font-style: italic; color: var(--accent); }
 
-/* NAVEGACIÓN */
-.nav-dots { position: fixed; left: 60px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; z-index: 100; }
+/* NAVEGACIÓN LATERAL */
+.nav-dots { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; z-index: 100; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,0.1); cursor: pointer; transition: 0.4s; }
 .dot.active { background: var(--accent); transform: scale(2.5); }
 
+/* INDICADOR DE SCROLL VERTICAL (CUQUI) */
+.scroll-down-info {
+    font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px;
+    margin-top: 20px; display: flex; align-items: center; gap: 10px;
+}
+.scroll-down-info span { width: 1px; height: 30px; background: var(--accent); display: block; animation: sdown 2s infinite; }
+
+@keyframes sdown { 0% { transform: scaleY(0.1); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(0.1); transform-origin: bottom; } }
+
 @media (max-width: 768px) {
-  .card { padding: 40px 25px; height: auto; min-height: 80vh; }
+  .card { height: 90vh; }
+  .card-content { padding: 40px 30px; }
   .needs-grid { grid-template-columns: 1fr; }
-  .need-item.full-width { grid-column: span 1; flex-direction: column; align-items: flex-start; }
-  .phone-link { font-size: 2rem; }
-  .nav-dots { left: 20px; }
-  .page-num { font-size: 3rem; top: 20px; right: 20px; }
+  .need-item.full-width { grid-column: span 1; flex-direction: column; }
 }
 </style>
 </head>
@@ -192,24 +168,34 @@ blockquote p {
 <div class="wrapper" id="wrapper">
   
   <section class="section active">
-    <div class="card hero-card" style="align-items: center; text-align: center;">
-        <span class="label" style="justify-content: center;">Zaragoza · 2026</span>
-        <h1>Antonio<br><em>Sánchez</em>.</h1>
-        <p style="color: rgba(255,255,255,0.5); margin-top: 2rem;">Una historia de superación y búsqueda de justicia.</p>
+    <div class="card hero-card">
+        <div>
+            <span class="label" style="justify-content: center; color: var(--accent);">Zaragoza · 2026</span>
+            <h1>Antonio<br><em>Sánchez</em>.</h1>
+            <p style="color: rgba(255,255,255,0.4); margin: 20px auto;">Desliza a la derecha para leer mi historia</p>
+        </div>
     </div>
   </section>
 
   <section class="section">
     <div class="card">
         <span class="page-num">01</span>
-        <span class="label">El Origen</span>
-        <div class="story-wrap">
+        <div class="card-content">
+            <span class="label">Mi Verdad</span>
             <h2>El vacío tras<br>su partida.</h2>
-            <p>Me llamo Antonio. Mi vida dio un giro irreversible tras el fallecimiento de mi madre. Ella era el nexo que mantenía la paz en casa.</p>
-            <blockquote>
-                <p>"La ley me alejó de mi hogar, pero no de mi verdad."</p>
-            </blockquote>
-            <p>Fui absuelto de toda acusación, pero sigo esperando recuperar lo que me pertenece por herencia.</p>
+            <p>Me llamo <strong>Antonio Sánchez</strong>. Mi vida dio un giro irreversible tras el fallecimiento de mi madre. Ella era el nexo que mantenía la paz en casa.</p>
+            
+            <div class="scroll-down-info"><span></span> Sigue bajando para saber más</div>
+
+            <div class="v-sub-section">
+                <p>Tras su muerte, la relación con mi padre se volvió insostenible. En un proceso judicial injusto del que fui absuelto, acabé perdiendo el acceso a mi propio hogar.</p>
+                <p>Aunque legalmente me corresponde una parte de la vivienda por herencia, los tiempos de la justicia no son los tiempos de la vida real. Mientras los papeles se mueven, yo me quedé fuera.</p>
+            </div>
+
+            <div class="v-sub-section">
+                <h3 style="font-family: 'Playfair Display'; margin-bottom: 15px;">La realidad hoy</h3>
+                <p>No busco culpables, busco soluciones. Estar en la calle en Zaragoza no es fácil. La falta de un descanso real y una higiene constante dificultan cualquier intento de reinserción laboral.</p>
+            </div>
         </div>
     </div>
   </section>
@@ -217,28 +203,46 @@ blockquote p {
   <section class="section">
     <div class="card">
         <span class="page-num">02</span>
-        <span class="label">El Presente</span>
-        <h2>Vivir sin un refugio.</h2>
-        <p>A pesar de la justicia legal, hoy me encuentro sin techo. Cada día es un ejercicio de resistencia para no perder la esperanza.</p>
-        <p><strong>Zaragoza es mi ciudad</strong>, y aquí es donde quiero reconstruir mi vida, paso a paso, con dignidad.</p>
+        <div class="card-content">
+            <span class="label">Propósito</span>
+            <h2>Cómo puedes ayudar.</h2>
+            <p>Cada donación o gesto de apoyo se destina a tres pilares fundamentales para mi recuperación:</p>
+            
+            <div class="needs-grid">
+                <div class="need-item"><h3>Alojamiento</h3><p>Para pagar noches de hostal y tener un descanso digno.</p></div>
+                <div class="need-item"><h3>Sustento</h3><p>Para cubrir la alimentación básica diaria.</p></div>
+                <div class="need-item"><h3>Justicia</h3><p>Para costear los trámites legales de mi herencia.</p></div>
+                <div class="need-item full-width">
+                    <div>
+                        <h3>El Mañana</h3>
+                        <p>Recuperar mi estabilidad para volver a trabajar con normalidad.</p>
+                    </div>
+                    <span style="font-family: 'Playfair Display'; font-style: italic; color: var(--accent);">Esperanza</span>
+                </div>
+            </div>
+        </div>
     </div>
   </section>
 
   <section class="section">
     <div class="card">
         <span class="page-num">03</span>
-        <span class="label">Propósito</span>
-        <h2>Cómo puedes ayudar.</h2>
-        <div class="needs-grid">
-            <div class="need-item"><h3>Alojamiento</h3><p>Seguridad y descanso básico.</p></div>
-            <div class="need-item"><h3>Sustento</h3><p>Alimentación diaria.</p></div>
-            <div class="need-item"><h3>Legalidad</h3><p>Trámites para recuperar mi casa.</p></div>
-            <div class="need-item full-width">
-                <div>
-                    <h3>El Mañana</h3>
-                    <p>Un pequeño impulso para volver a trabajar y tener estabilidad.</p>
+        <div class="card-content">
+            <span class="label">Oportunidad</span>
+            <h2>Busco trabajo.</h2>
+            <p>Mi prioridad absoluta es volver a sentirme útil. Estoy abierto a cualquier oportunidad laboral en la zona de Zaragoza.</p>
+            
+            <div style="margin: 30px 0;">
+                <a href="tel:+34691342480" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--ink); text-decoration: none;">+34 691 342 480</a>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <a href="tel:+34691342480" class="btn">Llamar</a>
+                    <a href="https://wa.me/34691342480" class="btn" style="background: #25D366; color: white;">WhatsApp</a>
                 </div>
-                <span style="font-family: 'Playfair Display'; font-style: italic; color: var(--accent);">Esperanza</span>
+            </div>
+
+            <div class="v-sub-section">
+                <h3 style="font-family: 'Playfair Display'; margin-bottom: 10px;">Sobre mí</h3>
+                <p>Soy una persona responsable, puntual y con gran capacidad de adaptación. He trabajado anteriormente en diversos sectores y aprendo rápido cualquier nueva tarea.</p>
             </div>
         </div>
     </div>
@@ -247,29 +251,18 @@ blockquote p {
   <section class="section">
     <div class="card">
         <span class="page-num">04</span>
-        <span class="label">Trabajo</span>
-        <h2>Busco una oportunidad.</h2>
-        <p>Mi mayor deseo es volver a ser útil. Si puedes ofrecerme empleo, aquí tienes mi contacto directo:</p>
-        <div class="contact-box">
-            <a href="tel:+34691342480" class="phone-link">+34 691 342 480</a>
-            <div style="display: flex; gap: 15px;">
-                <a href="tel:+34691342480" class="btn">Llamar</a>
-                <a href="https://wa.me/34691342480" class="btn" style="background: #25D366; color: white;">WhatsApp</a>
+        <div class="card-content" style="text-align: center;">
+            <span class="label" style="justify-content: center;">Apoyo</span>
+            <h2>Gracias por tu corazón.</h2>
+            <p style="margin: 0 auto 30px;">Tu ayuda llega directamente a mí, permitiéndome sobrevivir un día más mientras lucho por mi futuro.</p>
+            
+            <div style="background: var(--bg-color); padding: 40px; border-radius: 16px; display: inline-block; width: 100%; max-width: 500px;">
+                <span style="font-size: 0.7rem; letter-spacing: 2px; color: var(--muted);">IBAN PARA TRANSFERENCIA</span>
+                <span style="font-family: monospace; font-size: 1.2rem; display: block; margin: 20px 0; color: var(--ink); word-break: break-all;" id="iban-val">ES00 0000 0000 0000 0000 0000</span>
+                <button class="btn" onclick="copyIBAN()" id="copyBtn">Copiar IBAN</button>
             </div>
-        </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="card" style="align-items: center; text-align: center;">
-        <span class="page-num">05</span>
-        <span class="label" style="justify-content: center;">Apoyo</span>
-        <h2>Gracias por tu tiempo.</h2>
-        <p>Tu gesto, por pequeño que sea, me ayuda a seguir adelante hoy mismo.</p>
-        <div style="width: 100%; max-width: 500px; padding: 40px; border: 1px solid var(--bg-color); margin-top: 20px;">
-            <span style="font-size: 0.7rem; letter-spacing: 2px; color: var(--muted);">IBAN DE TRANSFERENCIA</span>
-            <span style="font-family: monospace; font-size: 1.2rem; display: block; margin: 20px 0; color: var(--ink);" id="iban-val">ES00 0000 0000 0000 0000 0000</span>
-            <button class="btn" onclick="copyIBAN()" id="copyBtn">Copiar IBAN</button>
+            
+            <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.5;">Antonio Sánchez · Zaragoza 2026</p>
         </div>
     </div>
   </section>
@@ -279,7 +272,7 @@ blockquote p {
 <div class="nav-dots" id="nav-dots"></div>
 
 <script>
-// NAVEGACIÓN
+// NAVEGACIÓN HORIZONTAL
 const wrapper = document.getElementById('wrapper');
 const sections = document.querySelectorAll('.section');
 const dotsContainer = document.getElementById('nav-dots');
@@ -301,19 +294,7 @@ wrapper.addEventListener('scroll', () => {
     });
 });
 
-// EFECTO TILT 3D SUAVE
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `rotateY(${x * 4}deg) rotateX(${y * -4}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = `rotateY(0) rotateX(0)`;
-    });
-});
-
+// COPIAR IBAN
 function copyIBAN() {
     const iban = document.getElementById('iban-val').textContent;
     navigator.clipboard.writeText(iban).then(() => {
@@ -323,12 +304,21 @@ function copyIBAN() {
     });
 }
 
-// SCROLL RUEDA
+// CONTROL DE SCROLL RUEDA (Detecta si la tarjeta necesita scroll vertical o si pasamos de sección)
 wrapper.addEventListener('wheel', (e) => {
-  if (e.deltaY !== 0) {
-    e.preventDefault();
-    wrapper.scrollBy({ left: e.deltaY > 0 ? window.innerWidth : -window.innerWidth, behavior: 'smooth' });
-  }
+    const activeCardContent = document.querySelector('.section.active .card-content');
+    
+    if (activeCardContent) {
+        const isAtBottom = activeCardContent.scrollHeight - activeCardContent.scrollTop <= activeCardContent.clientHeight + 1;
+        const isAtTop = activeCardContent.scrollTop === 0;
+
+        // Si estamos en el tope y queremos subir, o al final y queremos bajar, movemos la sección horizontal
+        if ((isAtBottom && e.deltaY > 0) || (isAtTop && e.deltaY < 0)) {
+            e.preventDefault();
+            wrapper.scrollBy({ left: e.deltaY > 0 ? window.innerWidth : -window.innerWidth, behavior: 'smooth' });
+        }
+        // En cualquier otro caso, dejamos que el scroll vertical natural de la tarjeta funcione
+    }
 }, { passive: false });
 </script>
 
